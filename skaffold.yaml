@@ -1,0 +1,30 @@
+apiVersion: skaffold/v2beta5
+kind: Config
+build:
+  tagPolicy:
+    dateTime:
+      format: "2006-01-02_15-04-05.999_MST"
+      timezone: "Local"
+  artifacts:
+  - image: template-nuxt-express #1.서비스 이름을 이미지 이름으로 씁니다 @EditPoint
+    docker:
+      dockerfile: DockerfileSkaffold
+      network: host
+    sync:
+      manual:
+      - src: 'src/app/**/*.*'
+        dest: "/app/"
+        strip: "src/app/"
+  local:
+    push: false
+    useBuildkit: true
+deploy:
+  helm:
+    releases:
+    - name: nuxt-express-release #로컬 배포명, 아무거나 상관 없지만 가능하면 유니크한 이름으로. @EditPoint
+      chartPath: k8s/
+      artifactOverrides:
+        container.image: template-nuxt-express #1과 일치시켜주어야 합니다. @EditPoint
+      setValueTemplates:
+        imageConfig.pullPolicy: IfNotPresent
+        replicas: 1

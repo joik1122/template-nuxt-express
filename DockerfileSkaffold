@@ -1,0 +1,19 @@
+FROM node:15.1.0-alpine3.12
+
+# Create app directory
+RUN mkdir /app
+COPY ./src/app/package.json /app/
+COPY ./src/app/yarn.lock /app/
+
+# Install dependency
+WORKDIR /app
+RUN yarn install
+    
+# CodeBase
+COPY ./src/app /app/
+
+ENV HOST 0.0.0.0
+ENV PORT 80
+
+# start command
+CMD ["/bin/sh", "-c", "yarn dev"]

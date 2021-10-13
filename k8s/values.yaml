@@ -1,0 +1,12 @@
+environment: local
+service:
+  name: template-nuxt-express #@EditPoint
+  tier: frontend
+  port: 80
+container:
+  name: template-nuxt-express #@EditPoint
+  port: 80
+  image: rp-registry.kr.ncr.ntruss.com/template-nuxt-express #@EditPoint
+imageConfig:
+  pullPolicy: IfNotPresent
+replicas: 1

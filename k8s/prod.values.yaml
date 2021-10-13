@@ -1,0 +1,21 @@
+environment: production
+imageConfig:
+  pullPolicy: Always
+resourceLimit: true
+isProd: true
+replicas: 1
+
+
+external:
+  domain: template-nuxt-express.realpacking.com # 실제 사용자에게 노출될 도메인 @EditPoint
+  gateway: istio-system/istio-ingressgateway # 외부에 실제 노출될 서비스 게이트웨이
+
+stage:
+  domain: prod.realpacking.com # 프로덕션 스테이징 도메인
+  gateway: istio-system/internal-istio-ingressgateway # 내부 게이트웨이
+
+useOnly: stage #@EditPoint
+# external | stage 중 택 1
+# *useOnly : nuxt 스택은, 배포할 경우 stage.domain 혹은 external.domain 중 하나만 사용해야합니다.
+# *ssr, csr, 브라우저 path 관련 이슈입니다 (Jonas)
+  
